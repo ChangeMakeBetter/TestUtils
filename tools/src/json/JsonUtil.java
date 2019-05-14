@@ -27,11 +27,11 @@ import json.entity.TestRequest;
 public class JsonUtil {
   public static void main(String[] args) {
     Field[] fields = TestRequest.class.getDeclaredFields();
-    System.out.println(buildToJson(fields, false));
-    System.out.println(buildParseJson(fields, false));
+    System.out.println(buildToJson(fields, false,true));
+    System.out.println(buildParseJson(fields, false,true));
   }
 
-  public static String buildToJson(Field[] fields, boolean appendSuper) {
+  public static String buildToJson(Field[] fields, boolean appendSuper,boolean firstCharUppercase) {
     StringBuilder sb = new StringBuilder();
     if (appendSuper) {
       sb.append("@Override\n");
@@ -59,7 +59,7 @@ public class JsonUtil {
               field.getName().substring(0, 1),
               field.getName() }));
           sb.append(String.format("jo.accumulate(\"%s\",%s);\n", new Object[] {
-              field.getName(),
+            firstCharUppercase ? firstCharToUpperCase(field.getName()): field.getName(),
               field.getName().substring(0, 1) + ".toJson()" }));
 
           sb.append("}\n");
@@ -70,12 +70,12 @@ public class JsonUtil {
           } else {
             value = String.format("Converter.toMoneyString(%s)", new Object[] { field.getName() });
           }
-          sb.append(String.format("jo.put(\"%s\",%s);\n", new Object[] { field.getName(), value }));
+          sb.append(String.format("jo.put(\"%s\",%s);\n", new Object[] { firstCharUppercase ? firstCharToUpperCase(field.getName()): field.getName(), value }));
         } else if (typeName.equals(getBoxedTypeName(Date.class.getName()))) {
           String value = String.format("Converter.toString(%s)", new Object[] { field.getName() });
-          sb.append(String.format("jo.put(\"%s\",%s);\n", new Object[] { field.getName(), value }));
+          sb.append(String.format("jo.put(\"%s\",%s);\n", new Object[] { firstCharUppercase ? firstCharToUpperCase(field.getName()): field.getName(), value }));
         } else {
-          sb.append(String.format("jo.put(\"%s\",%s);\n", new Object[] { field.getName(), field.getName() }));
+          sb.append(String.format("jo.put(\"%s\",%s);\n", new Object[] { firstCharUppercase ? firstCharToUpperCase(field.getName()): field.getName(), field.getName() }));
         }
       }
     }
@@ -83,7 +83,7 @@ public class JsonUtil {
     return sb.toString();
   }
 
-  public static String buildParseJson(Field[] fields, boolean appendSuper) {
+  public static String buildParseJson(Field[] fields, boolean appendSuper,boolean firstCharUppercase) {
     String methodPrefix = "set";
     StringBuilder sb = new StringBuilder();
     if (appendSuper) {
@@ -101,7 +101,7 @@ public class JsonUtil {
       if (!ignoreField(field.getName())) {
         String typeName = field.getType().toString();
         typeName = getBoxedTypeName(typeName);
-        sb.append(String.format("if(jo.has(\"%s\")) { \n", new Object[] { field.getName() }));
+        sb.append(String.format("if(jo.has(\"%s\")) { \n", new Object[] { firstCharUppercase ? firstCharToUpperCase(field.getName()): field.getName()}));
         if (typeName.toLowerCase().contains("list")) {
           Type gtype = field.getGenericType();
           Class c = (Class) ((ParameterizedType) gtype).getActualTypeArguments()[0];
@@ -109,7 +109,7 @@ public class JsonUtil {
           if (c != null) {
             generic = getBoxedTypeName(c.toString());
           }
-          sb.append(String.format("JSONArray ja = jo.optJSONArray(\"%s\");\n", new Object[] { field.getName() }));
+          sb.append(String.format("JSONArray ja = jo.optJSONArray(\"%s\");\n", new Object[] { firstCharUppercase ? firstCharToUpperCase(field.getName()): field.getName()}));
           sb.append(String.format("if (ja != null && ja.length() > 0) {\n"));
           sb.append(String.format("%s.clear();\n", new Object[] { field.getName() }));
           sb.append(String.format("for(int i = 0; i < ja.length(); i++) { \n"));
@@ -126,18 +126,18 @@ public class JsonUtil {
           sb.append("}\n");
         } else if (typeName.equals(getBoxedTypeName(BigDecimal.class.getName()))) {
           String value = String
-              .format("Converter.toBigDecimal(jo.optString(\"%s\"))", new Object[] { field.getName() });
+              .format("Converter.toBigDecimal(jo.optString(\"%s\"))", new Object[] { firstCharUppercase ? firstCharToUpperCase(field.getName()): field.getName() });
           sb.append(String.format(methodPrefix + firstCharToUpperCase(field.getName()) + "(%s);\n",
               new Object[] { value }));
           sb.append("}\n");
         } else if (typeName.equals(getBoxedTypeName(Date.class.getName()))) {
-          String value = String.format("Converter.toDate(jo.optString(\"%s\"))", new Object[] { field.getName() });
+          String value = String.format("Converter.toDate(jo.optString(\"%s\"))", new Object[] { firstCharUppercase ? firstCharToUpperCase(field.getName()): field.getName() });
           sb.append(String.format(methodPrefix + firstCharToUpperCase(field.getName()) + "(%s);\n",
               new Object[] { value }));
           sb.append("}\n");
         } else {
           sb.append(String.format(methodPrefix + firstCharToUpperCase(field.getName()) + "(jo.opt%s(\"%s\"));\n",
-              new Object[] { firstCharToUpperCase(typeName), field.getName() }));
+              new Object[] { firstCharToUpperCase(typeName), firstCharUppercase ? firstCharToUpperCase(field.getName()): field.getName() }));
           sb.append("}\n");
         }
       }

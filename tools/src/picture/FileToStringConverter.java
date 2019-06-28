@@ -51,7 +51,7 @@ public class FileToStringConverter {
       System.out.println("sourceTxt文件转换成string,长度:" + data.length());
 
       byteToPicture(data);
-      System.out.println("string 通过base64解析,转换成图片文件" + data.length());
+      System.out.println("string 通过base64解析,转换成图片文件");
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -70,6 +70,7 @@ public class FileToStringConverter {
   private static void compress() {
     System.out.println("compress start");
     try {
+      //缩放原图的四分之一,同时图片质量降为原图四分之一
       Thumbnails.of(sourcePicturePath).scale(0.25f).outputQuality(0.25f).toFile(compressPicturePath);
     } catch (IOException e) {
       e.printStackTrace();

@@ -3,10 +3,6 @@ package opencv;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -38,7 +34,9 @@ public class OpenCvTest {
   private  void run(String[] args) {
     // 索引
     String index = args.length > 0 ? args[0] : "0";
-    VideoCapture capture = new VideoCapture(index);
+    VideoCapture capture = new VideoCapture();
+    // 打开索引对应摄像头
+    capture.open(Integer.valueOf(index));
     if (!capture.isOpened()) {
       System.err.println("Unable to open: " + index);
       System.exit(0);
@@ -50,19 +48,23 @@ public class OpenCvTest {
         // 没读到数据，退出
         break;
       }
-      BufferedImage image = (BufferedImage) toBufferedImage(frame);
-      File file = new File("d:\\test1.jpg");
-      try {
-        ImageIO.write(image, "jpg", file);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+      ImageGui ig  = new ImageGui(frame,"Test");
+      ig.imshow();
+
+//      BufferedImage image = (BufferedImage) toBufferedImage(frame);
+//      File file = new File("d:\\test1.jpg");
+//      try {
+//        ImageIO.write(image, "jpg", file);
+//      } catch (IOException e) {
+//        e.printStackTrace();
+//      }
       break;
     }
   }
 
   public static void main(String[] args) {
     System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-    new OpenCvTest().run(args);
+    OpenCvTest ocv = new OpenCvTest();
+    ocv.run(args);
   }
 }

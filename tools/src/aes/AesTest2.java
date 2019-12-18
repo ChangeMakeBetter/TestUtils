@@ -55,6 +55,7 @@ import sun.misc.BASE64Encoder;
         return null;
       }
       byte[] bytes1 = base642Byte(base64Code);
+      String s2 = new String(bytes1);
       Cipher cipher = Cipher.getInstance("AES");
       SecretKeySpec aes = new SecretKeySpec(key.getBytes(), "AES");
       cipher.init(Cipher.DECRYPT_MODE, aes);
@@ -94,14 +95,15 @@ import sun.misc.BASE64Encoder;
         + "  }\n"
         + "}";
       String password = "12345678901234567890123456789012";
-//      String password = "1234567890123456";
-      System.out.println("加密之前：" + content);
-      // 加密
-      String encrypt = AesTest2.encryptAES(content, password);
-      System.out.println("加密后的内容：" + encrypt);
+////      String password = "1234567890123456";
+//      System.out.println("加密之前：" + content);
+//      // 加密
+//      String encrypt = AesTest2.encryptAES(content, password);
+//      System.out.println("加密后的内容：" + encrypt);
 
+      String res="s731wiLyD1BVDEgaM+q5pXz11YcTWJ+wc+yUbY9519/U2igO4R3prSoDiIH/IKWqdNkoEIYgaYpaXhKl1tavTQ==";
       // 解密
-      String decrypt = AesTest2.decryptAES(encrypt, password);
+      String decrypt = AesTest2.decryptAES(res, password);
       System.out.println("解密后的内容：" + decrypt);
     }
   }

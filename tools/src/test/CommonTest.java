@@ -9,8 +9,8 @@ import java.awt.image.Kernel;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
@@ -100,16 +100,19 @@ public class CommonTest {
 //    File resizedFile = new File("E://aaaaaa.jpg");
 //    jpgScalePicture(originalImage, resizedFile, 125, 30, true, 1f);
 
-    BigDecimal amount = new BigDecimal(299.00);
-    BigDecimal qty = new BigDecimal(1.0);
-    for (int i = 0; i < 2000; i++) {
-      BigDecimal price = amount.divide(qty, 2, RoundingMode.HALF_UP);
-      if (price.compareTo(new BigDecimal(299))!=0) {
-        System.out.println(price);
-      }
-    }
+//    BigDecimal amount = new BigDecimal(299.00);
+//    BigDecimal qty = new BigDecimal(1.0);
+//    for (int i = 0; i < 2000; i++) {
+//      BigDecimal price = amount.divide(qty, 2, RoundingMode.HALF_UP);
+//      if (price.compareTo(new BigDecimal(299))!=0) {
+//        System.out.println(price);
+//      }
+//    }
+
+    String platfromFlagStr = "";
+    List<String> platfromFlag = Arrays.asList(platfromFlagStr.split(";"));
 
 
-    System.err.println("转化成功''''''''''''''''''");
+    System.err.println(platfromFlag.size());
   }
 }

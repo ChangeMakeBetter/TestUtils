@@ -2,6 +2,7 @@ package utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,6 +31,43 @@ public class FileUtils {
       return new File(dir, name).isDirectory();
     }
   };
+
+  public static String readFileContent(File file, String charsetName) throws Exception {
+    if (!file.exists()) {
+      return null;
+    }
+    FileInputStream fis = null;
+    InputStreamReader isr = null;
+    BufferedReader reader = null;
+    try {
+      fis = new FileInputStream(file);
+      isr = new InputStreamReader(fis, charsetName == null ? "UTF-8" : charsetName);
+      reader = new BufferedReader(isr);
+      StringBuffer result = new StringBuffer();
+      String line = reader.readLine();
+      while (line != null) {
+        result.append(line);
+        result.append("\n");
+        line = reader.readLine();
+      }
+      return result.toString();
+    } catch (Exception e) {
+      throw e;
+    } finally {
+      try {
+        if (reader != null) {
+          reader.close();
+        }
+        if (isr != null) {
+          isr.close();
+        }
+        if (fis != null) {
+          fis.close();
+        }
+      } catch (IOException e) {
+      }
+    }
+  }
 
   public static FilenameFilter dirHasJavaFilesFilter = new FilenameFilter() {
     @Override

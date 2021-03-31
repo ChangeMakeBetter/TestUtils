@@ -3,7 +3,9 @@ package json.entity;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhanglulu
@@ -16,6 +18,8 @@ public class TestRequest {
   private Date tranTime;
   private List<Student> studentList = new ArrayList<Student>();
   private List<String> couponCodes = new ArrayList<String>();
+  private Map<String, Range> rangeMap = new HashMap<String, Range>();
+
   private boolean showMember = true;
 
   public String getMemberId() {
@@ -74,5 +78,11 @@ public class TestRequest {
     this.showMember = showMember;
   }
 
+  public Map<String, Range> getRangeMap() {
+    return rangeMap;
+  }
 
+  public void setRangeMap(Map<String, Range> rangeMap) {
+    this.rangeMap = rangeMap;
+  }
 }

@@ -11,5 +11,6 @@ public class HexTest {
     System.out.println(Integer.toHexString(a));
     byte b[] = {(byte)a};
     System.out.println(HexUtils.bytesToHexString(b));
+    
   }
 }

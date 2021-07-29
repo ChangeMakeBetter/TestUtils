@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="GBK"?>
+<pom class="com.hd123.h5.pom.document.PomDocument">
+    <element class="com.hd123.h5.pom.document.condition.general.DateRangeCondition" start="2021-7-1 00:00:00.000" finish="2022-7-2 00:00:00.000">
+        <element class="com.hd123.h5.pom.document.condition.product.SingleProductCondition">
+            <product mode="range">
+                <condition field="category" operator="equals">
+                    <operand>
+                        <entity uuid="20" type="category" code="20" name="生活百货"/>
+                        <entity uuid="200113" type="category" code="200113" name="生活收纳"/>
+                        <entity uuid="2001" type="category" code="2001" name="生活百货"/>
+                        <entity uuid="16010101" type="category" code="16010101" name="化妆包"/>
+                        <entity uuid="310140" type="category" code="310140" name="化妆包类"/>
+                        <entity uuid="31014001" type="category" code="31014001" name="化妆包"/>
+                        <entity uuid="31014078" type="category" code="31014078" name="化妆包"/>
+                        <entity uuid="3101" type="category" code="3101" name="精品包饰"/>
+                        <entity uuid="31" type="category" code="31" name="精品包饰"/>
+                        <entity uuid="12020299" type="category" code="12020299" name="其他文具礼品类"/>
+                        <entity uuid="2701" type="category" code="2701" name="文具"/>
+                        <entity uuid="27" type="category" code="27" name="文具"/>
+                        <entity uuid="27017706" type="category" code="27017706" name="文具夹"/>
+                        <entity uuid="27017739" type="category" code="27017739" name="文具收纳"/>
+                        <entity uuid="27017741" type="category" code="27017741" name="办公文具"/>
+                        <entity uuid="27017805" type="category" code="27017805" name="其他文具礼品类"/>
+                        <entity uuid="34010105" type="category" code="34010105" name="办公文具"/>
+                        <entity uuid="51011036" type="category" code="51011036" name="文具夹"/>
+                        <entity uuid="81010102" type="category" code="81010102" name="办公文具"/>
+                        <entity uuid="81010105" type="category" code="81010105" name="耗材办公文具"/>
+                        <entity uuid="28016801" type="category" code="28016801" name="键盘"/>
+                        <entity uuid="12010305" type="category" code="12010305" name="签字笔"/>
+                        <entity uuid="27017603" type="category" code="27017603" name="签字笔"/>
+                        <entity uuid="27017638" type="category" code="27017638" name="签字笔"/>
+                        <entity uuid="320163" type="category" code="320163" name="坚果/蜜饯"/>
+                        <entity uuid="32016301" type="category" code="32016301" name="散装坚果/炒货"/>
+                        <entity uuid="32016391" type="category" code="32016391" name="坚果"/>
+                        <entity uuid="32016302" type="category" code="32016302" name="果干/蜜饯"/>
+                        <entity uuid="28016804" type="category" code="28016804" name="台灯"/>
+                        <entity uuid="14020101" type="category" code="14020101" name="台灯"/>
+                        <entity uuid="32016392" type="category" code="32016392" name="果干/蜜饯"/>
+                    </operand>
+                </condition>
+            </product>
+            <element class="com.hd123.h5.pom.document.condition.member.MemberCondition">
+                <case>
+                    <type code="会员"/>
+                    <condition attribute="memberTag" operator="equals" operand="792.YOU享卡"/>
+                    <condition attribute="memberTag" operator="equals" operand="796.YOU享卡"/>
+                    <condition attribute="memberTag" operator="equals" operand="795.YOU享卡"/>
+                    <condition attribute="memberTag" operator="equals" operand="666.YOU享卡"/>
+                    <condition attribute="memberTag" operator="equals" operand="797.YOU享卡"/>
+                    <condition attribute="memberTag" operator="equals" operand="798.YOU享卡"/>
+                    <element class="com.hd123.h5.pom.document.condition.step.StepCondition" valueType="amount" operator="range" priceType="actualPrice" discountOperator="equal">
+                        <case value="30">
+                            <element class="com.hd123.h5.pom.document.PomExecutionSet" inputMode="auto">
+                                <element class="com.hd123.h5.pom.document.PomExecutionOption" evaluation="70">
+                                    <element class="com.hd123.h5.pom.document.execution.GeneralExecution" form="discount" apportionPriceType="none" value="0.9"/>
+                                </element>
+                            </element>
+                        </case>
+                    </element>
+                </case>
+            </element>
+        </element>
+    </element>
+</pom>

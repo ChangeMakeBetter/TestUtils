@@ -2,6 +2,9 @@ package batchrename;
 
 import java.awt.*;
 
+/**
+ * 批量文件重命名
+ */
 public class Invoker {//程序入口
 
   public static void main(String[] args) {

@@ -17,8 +17,12 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,11 +31,11 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-/**
- * @author caili
- */
+import batchrename.MyFileFilter;
+
 public class FileUtils {
 
   public static FilenameFilter javaFileFilter = new FilenameFilter() {
@@ -903,4 +907,107 @@ public class FileUtils {
 
     return text.replaceAll("\r", "").replaceAll("\n", lineSeparator);
   }
+
+  public static File[] getMatchedFiles(File parentDir, String matchRegEx, String extName) {
+    List<File> matchedFiles = new ArrayList<>();
+    File[] dirs = parentDir.listFiles(File::isDirectory);
+    if (dirs != null) {
+      for (File dir : dirs) {
+        File[] matchedFilesInDir = getMatchedFiles(dir, matchRegEx, extName);
+        matchedFiles.addAll(Arrays.asList(matchedFilesInDir));
+      }
+    }
+    File[] matchFileArray = parentDir.listFiles(new MyFileFilter(matchRegEx,
+      extName));
+    if (matchFileArray != null) {
+      matchedFiles.addAll(Arrays.asList(matchFileArray));
+    }
+    return matchedFiles.toArray(new File[0]);
+  }
+
+  /**
+   * 指定路径文件 从 flagStr 按行添加 writeContent
+   *
+   * @param writeContent
+   * @param path
+   * @param flagStr
+   * @throws IOException
+   * @throws URISyntaxException
+   */
+  public static void write2File(List<String> writeContent, String path, String flagStr) throws IOException,
+    URISyntaxException {
+    // 创建临时文件
+    File outFile = File.createTempFile("fileTmp", ".tmp");
+    //  源文件
+    File testFile = new File(path);
+    // 源文件输入流
+    FileInputStream fis = new FileInputStream(testFile);
+    BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+    // 源文件输出流
+    FileOutputStream fos = new FileOutputStream(outFile);
+    PrintWriter out = new PrintWriter(fos);
+    // 保存一行数据
+    String thisLine;
+    // jvm 退出 临时文件删除
+    outFile.deleteOnExit();
+    boolean isAdded = false;
+    while ((thisLine = in.readLine()) != null) {
+      //  当读取到目标行时 写入需要写入的内容
+      if (!isAdded && thisLine.trim().contains(flagStr.trim())) {
+        out.println(thisLine);
+        for (String s : writeContent) {
+          System.out.println("添加内容:" + s);
+          out.println(s);
+        }
+        isAdded = true;
+      } else {
+        // 输出读取到的数据
+        out.println(thisLine);
+      }
+    }
+    // 各种关
+    out.flush();
+    out.close();
+    in.close();
+    // 删除原始文件
+    testFile.delete();
+    // 把临时文件改名为原文件名
+    outFile.renameTo(testFile);
+  }
+
+  public static void main(String[] args) {
+    String path = "C:\\Users\\yangxiaohua\\Desktop\\stps\\Step2PanelSettings.java";
+    try {
+      List<String> list = buildAddContent("showRandomDiscount", "boolean", "false", "展示随机折扣");
+      write2File(list, path, "needCheckHoldTranPermission");
+
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+
+  }
+
+  public static List<String> buildAddContent(String fieldName, String fieldType, String defaultValue, String note)
+    throws Exception {
+
+    String firstChar = fieldName.substring(0, 1);
+    String otherChar = fieldName.substring(1);
+    String upperFileName = firstChar.toUpperCase() + otherChar;
+
+    List<String> addList = new ArrayList<>();
+    addList.add("  /** " + note + "*/");
+    addList
+      .add("  private " + fieldType + " " + fieldName + (defaultValue == null ? ";" : " = " + defaultValue + ";"));
+    addList.add("");
+    addList.add("  public " + fieldType + " get" + upperFileName + "(){");
+    addList.add("    return " + fieldName + ";");
+    addList.add("  }");
+    addList.add("");
+    addList.add("  public void set" + upperFileName + "(" + fieldType + " " + fieldName + "){");
+    addList.add("     this." + fieldName + " = " + fieldName + ";");
+    addList.add("  }");
+    return addList;
+
+  }
+
 }

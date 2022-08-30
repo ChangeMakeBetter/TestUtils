@@ -27,7 +27,7 @@ public class ActionButtonListener implements ActionListener {
     tableModel.setRowCount(0);
     File parentDir = new File(myUI.parentDirField.getText());
 
-    File[] matchedFiles = getMatchedFiles(parentDir, matchRegEx, extName);
+    File[] matchedFiles = FileUtils.getMatchedFiles(parentDir, matchRegEx, extName);
     if (matchedFiles == null) {
       return;
     }
@@ -83,22 +83,6 @@ public class ActionButtonListener implements ActionListener {
     String parentDir;
   }
 
-  private File[] getMatchedFiles(File parentDir, String matchRegEx, String extName) {
-    List<File> matchedFiles = new ArrayList<>();
-    File[] dirs = parentDir.listFiles(File::isDirectory);
-    if (dirs != null) {
-      for (File dir : dirs) {
-        File[] matchedFilesInDir = getMatchedFiles(dir, matchRegEx, extName);
-        matchedFiles.addAll(Arrays.asList(matchedFilesInDir));
-      }
-    }
-    File[] matchFileArray = parentDir.listFiles(new MyFileFilter(matchRegEx,
-      extName));
-    if (matchFileArray != null) {
-      matchedFiles.addAll(Arrays.asList(matchFileArray));
-    }
-    return matchedFiles.toArray(new File[0]);
-  }
 
   @Override
   public void actionPerformed(ActionEvent e) {

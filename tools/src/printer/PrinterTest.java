@@ -15,6 +15,8 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 
+import javax.swing.SwingUtilities;
+
 /**
  * TestUtils<br> Created by yangxiaohua on 2019/11/22.
  */
@@ -27,6 +29,7 @@ public class PrinterTest implements Printable {
    * @param pageIndex
    *   指明页号
    **/
+  @Override
   public int print(Graphics gra, PageFormat pf, int pageIndex) throws PrinterException {
     System.out.println("pageIndex=" + pageIndex);
     Component c = null;
@@ -71,33 +74,45 @@ public class PrinterTest implements Printable {
     }
   }
 
+  //  public static void main(String[] args) {
+  //    // 通俗理解就是书、文档
+  //    Book book = new Book();
+  //    // 设置成竖打
+  //    PageFormat pf = new PageFormat();
+  //    pf.setOrientation(PageFormat.PORTRAIT);
+  //    // 通过Paper设置页面的空白边距和可打印区域。必须与实际打印纸张大小相符。
+  //    Paper p = new Paper();
+  //    p.setSize(590, 840);//纸张大小
+  //    p.setImageableArea(10, 10, 590, 840);//A4(595 X 842)设置打印区域，其实0，0应该是72，72，因为A4纸的默认X,Y边距是72
+  //    pf.setPaper(p);
+  //    // 把 PageFormat 和 Printable 添加到书中，组成一个页面
+  //    book.append(new PrinterTest(), pf);
+  //    //获取打印服务对象
+  //    PrinterJob job = PrinterJob.getPrinterJob();
+  //    // 设置打印类
+  //    job.setPageable(book);
+  //    try {
+  //      //可以用printDialog显示打印对话框，在用户确认后打印；也可以直接打印
+  //      boolean a = job.printDialog();
+  //      if (a) {
+  //        job.print();
+  //      } else {
+  //        job.cancel();
+  //      }
+  //    } catch (PrinterException e) {
+  //      e.printStackTrace();
+  //    }
+  //  }
+
   public static void main(String[] args) {
-    // 通俗理解就是书、文档
-    Book book = new Book();
-    // 设置成竖打
-    PageFormat pf = new PageFormat();
-    pf.setOrientation(PageFormat.PORTRAIT);
-    // 通过Paper设置页面的空白边距和可打印区域。必须与实际打印纸张大小相符。
-    Paper p = new Paper();
-    p.setSize(590, 840);//纸张大小
-    p.setImageableArea(10, 10, 590, 840);//A4(595 X 842)设置打印区域，其实0，0应该是72，72，因为A4纸的默认X,Y边距是72
-    pf.setPaper(p);
-    // 把 PageFormat 和 Printable 添加到书中，组成一个页面
-    book.append(new PrinterTest(), pf);
-    //获取打印服务对象
-    PrinterJob job = PrinterJob.getPrinterJob();
-    // 设置打印类
-    job.setPageable(book);
-    try {
-      //可以用printDialog显示打印对话框，在用户确认后打印；也可以直接打印
-      boolean a = job.printDialog();
-      if (a) {
-        job.print();
-      } else {
-        job.cancel();
+    Runnable doHelloWorld = new Runnable() {
+      @Override
+      public void run() {
+        System.out.println("Hello World on " + Thread.currentThread());
       }
-    } catch (PrinterException e) {
-      e.printStackTrace();
-    }
+    };
+
+    SwingUtilities.invokeLater(doHelloWorld);
+    System.out.println("This might well be displayed before the other message.");
   }
 }

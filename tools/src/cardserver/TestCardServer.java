@@ -27,9 +27,9 @@ public class TestCardServer extends JFrame {
 
   //以下参数需要自行调整
   private String serverUrl = "http://localhost:8080/cardserver/service";
-  private String terminalId = "999";
+  private String terminalId = "mj";
   private String terminalFeature = "255350018048BFEBFBFF000A0653";
-  private String regNum = "999";
+  private String regNum = "111";
   // end
 
   public static void main(String[] args) throws Exception {

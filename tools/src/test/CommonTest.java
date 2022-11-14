@@ -1,5 +1,6 @@
 package test;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -13,10 +14,15 @@ public class CommonTest {
 
   public static void main(String[] args) throws IOException {
 
-    BigDecimal total = new BigDecimal(10);
-    BigDecimal result = total.divide(new BigDecimal(3), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(2));
-    System.out.println(result);
+    //    BigDecimal total = new BigDecimal(10);
+    //    BigDecimal result = total.divide(new BigDecimal(3), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(2));
+    //    System.out.println(result);
+    screenTest();
+  }
 
+  private static void screenTest() {
+    int screenW = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    System.out.println(screenW);
   }
 
   private static String rebuildPrintInfo(String message) {

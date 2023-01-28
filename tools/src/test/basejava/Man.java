@@ -4,9 +4,12 @@ package test.basejava;
  * </br>
  * Created by yangxiaohua on 2021/5/7.
  */
-public class Man {
+public class Man extends Person {
   private String name;
   private int age;
+
+  public Man() {
+  }
 
   public Man(String name, int age) {
     this.name = name;

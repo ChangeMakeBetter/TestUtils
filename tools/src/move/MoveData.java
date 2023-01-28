@@ -27,8 +27,8 @@ public class MoveData {
         inStream = new FileInputStream(hdInstall);
         properties.load(inStream);
         String hd_home = properties.getProperty("HD_HOME");
-
-        File[] files = orderByDate("");
+        File f = new File("");
+        File[] files = orderByDate(f.getAbsolutePath());
         File sourceFile = files[0];
         System.out.println("sourceFile" + sourceFile.getName());
         File targetFile = new File(hd_home + "/jpos/init/data/" + sourceFile.getName());
@@ -37,7 +37,7 @@ public class MoveData {
         Desktop.getDesktop().open(targetFile.getParentFile());
       }
     } catch (Exception e) {
-      System.out.println("error:" + e.getMessage());
+      System.err.println(e);
     } finally {
       try {
         if (inStream != null) {
@@ -56,7 +56,7 @@ public class MoveData {
         return !fileName.endsWith("bat") && !fileName.endsWith("jar");
       }
     );
-    assert files != null;
+    System.out.println("size:" + (files == null ? 0 : files.length));
     Arrays.sort(files, new Comparator<File>() {
       @Override
       public int compare(File f1, File f2) {

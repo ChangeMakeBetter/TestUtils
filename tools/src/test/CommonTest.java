@@ -4,6 +4,7 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,7 +18,16 @@ public class CommonTest {
     //    BigDecimal total = new BigDecimal(10);
     //    BigDecimal result = total.divide(new BigDecimal(3), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(2));
     //    System.out.println(result);
-    screenTest();
+    //    screenTest();
+    Date st = new Date();
+
+    try {
+      Thread.sleep(3000);
+    } catch (Exception e) {
+    }
+
+    String perfPrepare = Long.toString(new Date().getTime() - st.getTime());
+    System.out.println(perfPrepare);
   }
 
   private static void screenTest() {

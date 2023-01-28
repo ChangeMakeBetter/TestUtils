@@ -20,32 +20,35 @@ public class BaseTest {
   public static void main(String[] args) throws UnknownHostException {
     //
     //    ([\s\S]*?)
-    String PRINTBARCODE_FUNCTION = "printBarCode/([\\s\\S]*?),([\\s\\S]*?)/";
-    Pattern p = Pattern.compile(PRINTBARCODE_FUNCTION);
-    Matcher m = p.matcher("printBarCode/\n123123123/");
-    while (m.find()) {
-      System.out.println("match");
-    }
+    //    String PRINTBARCODE_FUNCTION = "printBarCode/([\\s\\S]*?),([\\s\\S]*?)/";
+    //    Pattern p = Pattern.compile(PRINTBARCODE_FUNCTION);
+    //    Matcher m = p.matcher("printBarCode/\n123123123/");
+    //    while (m.find()) {
+    //      System.out.println("match");
+    //    }
+    //
+    //    String test = "asdf";
+    //
+    //    OtterSampleBill bill = new OtterSampleBill();
+    //    bill.getDataFrom();
+    //
+    //    String productUuids[] = test.split(";");
+    //
+    //    System.out.println(productUuids.length);
+    //
+    //    List<Man> manList = new ArrayList<>();
+    //    manList.add(new Man("y", 27));
+    //    manList.add(new Man("x", 33));
+    //    System.out.println(manList.toString());
+    //
+    //    List<String> sizes = new ArrayList<String>();
+    //    for (File file : File.listRoots()) {
+    //      sizes.add(Long.toString(file.getTotalSpace()));
+    //    }
+    //    System.out.println(sizes);
 
-    String test = "asdf";
-
-    OtterSampleBill bill = new OtterSampleBill();
-    bill.getDataFrom();
-
-    String productUuids[] = test.split(";");
-
-    System.out.println(productUuids.length);
-
-    List<Man> manList = new ArrayList<>();
-    manList.add(new Man("y", 27));
-    manList.add(new Man("x", 33));
-    System.out.println(manList.toString());
-
-    List<String> sizes = new ArrayList<String>();
-    for (File file : File.listRoots()) {
-      sizes.add(Long.toString(file.getTotalSpace()));
-    }
-    System.out.println(sizes);
+    Man man = new Man();
+    man.setStatusErrorText("t");
 
   }
 }

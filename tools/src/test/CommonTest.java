@@ -3,10 +3,12 @@ package test;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import utils.MyConverter;
 
 /**
  * TestUtils<br> Created by yangxiaohua on 2019/11/15.
@@ -14,20 +16,39 @@ import java.util.regex.Pattern;
 public class CommonTest {
 
   public static void main(String[] args) throws IOException {
+    //    00349a
 
-    //    BigDecimal total = new BigDecimal(10);
-    //    BigDecimal result = total.divide(new BigDecimal(3), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(2));
-    //    System.out.println(result);
-    //    screenTest();
-    Date st = new Date();
+    List<User> list = new ArrayList<>();
+    list.add(new User("1", "10"));
+    list.add(new User("2", "100"));
 
-    try {
-      Thread.sleep(3000);
-    } catch (Exception e) {
+    BigDecimal couponAmtTotal =
+      list.stream().map(e -> MyConverter.toBigDecimal(e.getBalance()))
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+    System.out.println("券总金额：" + couponAmtTotal);
+
+  }
+
+  public static String stringToAscii(String value) {
+    StringBuffer sbu = new StringBuffer();
+    char[] chars = value.toCharArray();
+    for (int i = 0; i < chars.length; i++) {
+      int c = (int) chars[i];
+      if (c > 64) {
+        sbu.append(c - 64);
+      } else {
+        sbu.append(chars[i]);
+      }
+      //      if (i != chars.length - 1) {
+      //        sum += (int) chars[i];
+      //        sbu.append((int) chars[i]).append(",");
+      //      } else {
+      //        sum += (int) chars[i];
+      //        sbu.append((int) chars[i]);
+      //      }
     }
 
-    String perfPrepare = Long.toString(new Date().getTime() - st.getTime());
-    System.out.println(perfPrepare);
+    return sbu.toString();
   }
 
   private static void screenTest() {

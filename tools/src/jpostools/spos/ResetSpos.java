@@ -1,4 +1,4 @@
-package move;
+package jpostools.spos;
 
 import java.awt.Desktop;
 import java.io.BufferedInputStream;
@@ -15,7 +15,7 @@ import java.util.Properties;
  * </br>
  * Created by yangxiaohua on 2022/11/14.
  */
-public class MoveData {
+public class ResetSpos {
 
   public static void main(String[] args) {
     FileInputStream inStream = null;

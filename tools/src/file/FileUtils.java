@@ -971,6 +971,56 @@ public class FileUtils {
     outFile.renameTo(testFile);
   }
 
+  /**
+   * 从文件末尾开始读取并写入
+   *
+   * @param writeContent
+   * @param path
+   * @param flagStr
+   * @throws IOException
+   * @throws URISyntaxException
+   */
+  public static void write2FileTail(List<String> writeContent, String path, String flagStr) throws IOException,
+    URISyntaxException {
+    // 创建临时文件
+    File outFile = File.createTempFile("fileTmp", ".tmp");
+    //  源文件
+    File testFile = new File(path);
+    // 源文件输入流
+    FileInputStream fis = new FileInputStream(testFile);
+    BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+    // 源文件输出流
+    FileOutputStream fos = new FileOutputStream(outFile);
+    PrintWriter out = new PrintWriter(fos);
+    // 保存一行数据
+    String thisLine;
+    // jvm 退出 临时文件删除
+    outFile.deleteOnExit();
+    boolean isAdded = false;
+    while ((thisLine = in.readLine()) != null) {
+      //  当读取到目标行时 写入需要写入的内容
+      if (!isAdded && thisLine.trim().contains(flagStr.trim())) {
+        out.println(thisLine);
+        for (String s : writeContent) {
+          System.out.println("添加内容:" + s);
+          out.println(s);
+        }
+        isAdded = true;
+      } else {
+        // 输出读取到的数据
+        out.println(thisLine);
+      }
+    }
+    // 各种关
+    out.flush();
+    out.close();
+    in.close();
+    // 删除原始文件
+    testFile.delete();
+    // 把临时文件改名为原文件名
+    outFile.renameTo(testFile);
+  }
+
   public static void main(String[] args) {
     String path = "C:\\Users\\yangxiaohua\\Desktop\\stps\\Step2PanelSettings.java";
     try {

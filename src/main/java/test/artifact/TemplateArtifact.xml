@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+    <artifact type="jar" name="$CLASSNAME$">
+        <output-path>$PROJECT_DIR$/$OUTPUT_PATH$</output-path>
+        <root id="archive" name="TestWindowsPrinter.jar">
+            <element id="directory" name="com">
+                <element id="directory" name="hd123">
+                    <element id="directory" name="test">
+                        <element id="directory" name="printer">
+                            <element id="file-copy" path="$PROJECT_DIR$/out/production/jpos-test/com/hd123/test/printer/TestWindowsPrinter.class"/>
+                        </element>
+                    </element>
+                </element>
+            </element>
+            <element id="directory" name="META-INF">
+                <element id="file-copy" path="D:/jarRun/TestWindowsPrinter/META-INF/MANIFEST.MF"/>
+            </element>
+        </root>
+    </artifact>
+</component>

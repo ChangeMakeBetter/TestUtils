@@ -16,6 +16,10 @@ public class CreateBeanCode {
   private static final String template = "  @Resource(name = \"beanName\")\n"
     + "  private className fieldName;\n";
 
+  private static final String template2 = "  private className fieldName() {\n"
+    + "    return fieldBeanKit.getBean(\"beanName\", className.class);\n"
+    + "  }";
+
   private static Map<String, String> fieldNameMap = new HashMap<>();
 
   static {
@@ -25,6 +29,7 @@ public class CreateBeanCode {
     fieldNameMap.put("MgrJDBC", "orderMgr");
     fieldNameMap.put("OrderMgr", "orderMgr");
     fieldNameMap.put("Processor", "processor");
+    fieldNameMap.put("Service", "service");
   }
 
   public static void main(String[] args) {
@@ -45,14 +50,27 @@ public class CreateBeanCode {
       }
     }
 
-    String result = template;
-    result = result.replaceAll("beanName", beanName);
-    result = result.replaceAll("className", className);
-    result = result.replaceAll("fieldName", fieldName);
-    System.out.println(result);
+    String result1 = template;
+    if (isInterfaceMode(fieldName)) {
+      className = "I" + className;
+    }
+    result1 = result1.replaceAll("beanName", beanName);
+    result1 = result1.replaceAll("className", className);
+    result1 = result1.replaceAll("fieldName", fieldName);
+    System.out.println(result1);
+
+    String result2 = template2;
+    result2 = result2.replaceAll("beanName", beanName);
+    result2 = result2.replaceAll("className", className);
+    result2 = result2.replaceAll("fieldName", fieldName);
+    System.out.println(result2);
 
     Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-    clipboard.setContents(new StringSelection(result), null);
+    clipboard.setContents(new StringSelection(result1 + "\n\n" + result2), null);
+  }
+
+  private static boolean isInterfaceMode(String fieldName) {
+    return "orderMgr".equals(fieldName) || "processor".equals(fieldName) || "service".equals(fieldName);
   }
 
   private static String upperFirstChar(String name) {

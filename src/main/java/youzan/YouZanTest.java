@@ -1,5 +1,9 @@
 package youzan;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * </br>
  * Created by yangxiaohua on 2020/10/26.
@@ -32,5 +36,24 @@ public class YouZanTest {
     //      e.printStackTrace();
     //    }
 
+  }
+
+  public static void main(String[] args) {
+    String s = "5/24/22 9:34";
+    System.out.println(isDateFormat(s));
+
+  }
+
+  // 检查是否是日期格式 "M/d/yy"
+  private static boolean isDateFormat(String input) {
+    SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
+    sdf.setLenient(false); // 设置严格模式，不允许自动纠正
+    try {
+      Date date = sdf.parse(input);
+      System.out.println(date);
+      return true;
+    } catch (ParseException e) {
+      return false;
+    }
   }
 }

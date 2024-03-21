@@ -27,8 +27,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.net.ssl.HostnameVerifier;
@@ -41,6 +39,8 @@ import javax.net.ssl.X509TrustManager;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 import sun.awt.image.URLImageSource;
 
@@ -55,8 +55,6 @@ public class ImageUtils {
    * 
    * @param imgData
    *          Base64编码的图片数据
-   * @param imageFile
-   *          生成的图片文件
    * @return
    */
   public static boolean generateImage(String imgData, File loacalFile) throws Exception { // 对字节数组字符串进行Base64解码并生成图片
@@ -139,8 +137,6 @@ public class ImageUtils {
   /**
    * 获得图片的Base64编码
    * 
-   * @param path
-   *          图片文件地址
    * @return
    */
   public static String getImageStr(String imageFilePath) throws Exception {
@@ -195,7 +191,7 @@ public class ImageUtils {
         }
       }
     } catch (IOException e) {
-      Logger.getLogger(ImageUtils.class.getName()).log(Level.SEVERE, null, e);
+      Logger.getLogger(ImageUtils.class.getName()).log(Level.ERROR, null, e);
     }
     return result;
   }
@@ -305,7 +301,7 @@ public class ImageUtils {
       }
 
     } catch (Exception e) {
-      Logger.getLogger(ImageUtils.class.getName()).log(Level.SEVERE, null, e);
+      Logger.getLogger(ImageUtils.class.getName()).log(Level.ERROR, null, e);
     }
     return imageResult;
   }
@@ -326,12 +322,15 @@ public class ImageUtils {
     if (conn instanceof HttpsURLConnection) {
       try {
         TrustManager tm = new X509TrustManager() {
+          @Override
           public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String input) {
           }
 
+          @Override
           public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String input) {
           }
 
+          @Override
           public java.security.cert.X509Certificate[] getAcceptedIssuers() {
             return null;
           }
@@ -348,6 +347,7 @@ public class ImageUtils {
         };
 
         HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+          @Override
           public boolean verify(String arg0, SSLSession arg1) {
             return true;
           }

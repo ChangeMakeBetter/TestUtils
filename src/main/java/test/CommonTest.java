@@ -1,31 +1,66 @@
 package test;
 
 import java.awt.Toolkit;
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import utils.MyConverter;
 
 /**
  * TestUtils<br> Created by yangxiaohua on 2019/11/15.
  */
 public class CommonTest {
 
-  public static void main(String[] args) throws IOException {
-    //    00349a
+  public static List<String> generateCardNumbers(String start, String end) {
+    List<String> cardNumbers = new ArrayList<>();
 
-    List<User> list = new ArrayList<>();
-    list.add(new User("1", "10"));
-    list.add(new User("2", "100"));
+    // 确保 start 和 end 都是有效的数字字符串
+    if (!start.matches("\\d+") || !end.matches("\\d+")) {
+      throw new IllegalArgumentException("Start and end must be valid digit strings.");
+    }
 
-    BigDecimal couponAmtTotal =
-      list.stream().map(e -> MyConverter.toBigDecimal(e.getBalance()))
-        .reduce(BigDecimal.ZERO, BigDecimal::add);
-    System.out.println("券总金额：" + couponAmtTotal);
+    // 确定最长卡号的长度
+    int maxLength = Math.max(start.length(), end.length());
+
+    // 将字符串转换为整数
+    long startLong = Long.parseLong(start);
+    long endLong = Long.parseLong(end);
+
+    // 生成卡号并添加到列表中
+    for (long i = startLong; i <= endLong; i++) {
+      String formattedNumber = String.format("%0" + maxLength + "d", i);
+      cardNumbers.add(formattedNumber);
+    }
+
+    return cardNumbers;
+  }
+
+  public static void main(String[] args) {
+
+    List<String> list = new ArrayList<>();
+    for (int i = 1; i <= 500000; i++) {
+      String formattedNumber = String.format("%06d", i);
+      list.add(formattedNumber);
+    }
+    String s = String.join(";", list);
+
+    //计算从list中判断是否存在2600耗时
+    long startTime = System.currentTimeMillis();
+    for (int i = 0; i < list.size(); i++) {
+      if (list.get(i).equals("242600")) {
+        System.out.println("存在242600");
+      }
+    }
+    long endTime = System.currentTimeMillis();
+    System.out.println("耗时：" + (endTime - startTime) + "ms");
+
+    // 判断IndexOf(',2600')耗时
+    long startTime2 = System.currentTimeMillis();
+    if (s.contains("242600")) {
+      System.out.println("存在242600");
+    }
+    long endTime2 = System.currentTimeMillis();
+    System.out.println("耗时：" + (endTime2 - startTime2) + "ms");
 
   }
 

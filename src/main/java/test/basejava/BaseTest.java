@@ -6,17 +6,14 @@ package test.basejava;
 public class BaseTest {
 
   public static void main(String[] args) {
-    BasePayResponse res = new BasePayResponse();
-    ReturnData<BasePayResponse> rd = new ReturnData<>();
-    res.setValue("New Value");
-    rd.setData(res);
 
-    // 此时 res 的值已经在 handlePayResponse 函数内修改
+    PersonCaller pc = new PersonCaller(new Man("yangxiaohua", 18));
 
-    BasePayResponse res2 = new BasePayResponse();
-    handlePayRes2(rd, res2);
+    Man manCopy = pc.getMan();
+    manCopy.setName("yangxiaohua2");
 
-    System.out.println(res2.getValue());
+    System.out.println(manCopy.getName());
+    System.out.println(pc.getMan().getName());
   }
 
   static class ReturnData<T> {

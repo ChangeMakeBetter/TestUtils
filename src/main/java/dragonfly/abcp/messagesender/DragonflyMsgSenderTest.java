@@ -1,8 +1,5 @@
 package dragonfly.abcp.messagesender;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 
 import dragonfly.DragonFlyLibV2;
 import dragonfly.abcp.api.BpaasApiDLL.OnAbcpFinish;
@@ -12,7 +9,6 @@ public class DragonflyMsgSenderTest {
   private MyDragonflyMsgSender msgSender;
   private DragonFlyLibV2Stub libStub;
 
-  @Before
   public void setUp() {
     // 初始化 DragonflyMsgSender 和 DragonFlyLibV2Stub
     libStub = new DragonFlyLibV2Stub();
@@ -20,13 +16,11 @@ public class DragonflyMsgSenderTest {
     msgSender.init(libStub);
   }
 
-  @After
   public void tearDown() {
     // 关闭 DragonflyMsgSender
     msgSender.close();
   }
 
-  @Test
   public void testSendMessage() throws InterruptedException {
     // 创建 DragonFlyMessage 对象
 

@@ -231,25 +231,34 @@ public class TestDragonflayAppletV2 extends JFrame {
       AbcpInvoke.getInstance().init();
       JSONObject jsonInit = new JSONObject();
       jsonInit.put("bpaasSign", secret);
+      jsonInit.put("encode_sys_ansi", 0);
       String jsonStr = jsonInit.toString();
       System.out.println("jsonStr:" + jsonStr);
 
-      System.out.println("start init ");
-      AbcpInvoke.getInstance().abcpInit(appId, appVersion, jsonStr, new OnAbcpFinish() {
+      // 创建一个线程来进行abcpInit
+      Thread initThread = new Thread(new Runnable() {
         @Override
-        public void on_finish(int p_arg, int code, String subCode, String subMsg, String result) {
-          System.out.printf("abcp_init finish: [%d:%s] %s %n", code, subCode, result);
-          if (code == 1000 && "E00000".equals(subCode)) {
-            initSuccessed = true;
-            ta.append("init 完成");
-          }
-        }
-      }, new OnAbcpProcess() {
-        @Override
-        public void on_process(int p_arg, int code, String subCode, String subMsg, String result) {
-          System.out.printf("abcp_init process: [%d:%s] %n", code, subCode);
+        public void run() {
+          System.out.println("start init ");
+
+          AbcpInvoke.getInstance().abcpInit(appId, appVersion, jsonStr, new OnAbcpFinish() {
+            @Override
+            public void on_finish(int p_arg, int code, String subCode, String subMsg, String result) {
+              System.out.printf("abcp_init finish: [%d:%s] %s %n", code, subCode, result);
+              if (code == 1000 && "E00000".equals(subCode)) {
+                initSuccessed = true;
+                ta.append("init 完成");
+              }
+            }
+          }, new OnAbcpProcess() {
+            @Override
+            public void on_process(int p_arg, int code, String subCode, String subMsg, String result) {
+              System.out.printf("abcp_init process: [%d:%s] %n", code, subCode);
+            }
+          });
         }
       });
+      initThread.start();
     } catch (Exception e) {
       ta.append(e.getMessage());
     }

@@ -1,4 +1,4 @@
-package utils;
+package excel;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -57,7 +57,7 @@ public class DynamicPojoGenerator {
 
     // Generate fields based on column names
     for (String fieldName : fieldNames) {
-      sourceCode.append("    private Object ").append(fieldName).append(";\n");
+      sourceCode.append("    private String ").append(fieldName).append(";\n");
     }
     sourceCode.append("\n");
 
@@ -66,10 +66,10 @@ public class DynamicPojoGenerator {
 
     // Generate getters and setters
     for (String fieldName : fieldNames) {
-      sourceCode.append("    public Object get").append(capitalize(fieldName)).append("() {\n");
+      sourceCode.append("    public String get").append(capitalize(fieldName)).append("() {\n");
       sourceCode.append("        return ").append(fieldName).append(";\n");
       sourceCode.append("    }\n\n");
-      sourceCode.append("    public void set").append(capitalize(fieldName)).append("(Object ").append(fieldName)
+      sourceCode.append("    public void set").append(capitalize(fieldName)).append("(String ").append(fieldName)
         .append(") {\n");
       sourceCode.append("        this.").append(fieldName).append(" = ").append(fieldName).append(";\n");
       sourceCode.append("    }\n\n");

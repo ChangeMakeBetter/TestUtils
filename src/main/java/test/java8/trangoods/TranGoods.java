@@ -1,6 +1,7 @@
 package test.java8.trangoods;
 
 import java.math.BigDecimal;
+import java.util.TimeZone;
 
 /**
  * </br>
@@ -29,5 +30,10 @@ public class TranGoods {
       "id=" + id +
       ", amount=" + amount +
       '}';
+  }
+
+  public static void main(String[] args) {
+    TimeZone tz = TimeZone.getDefault();
+    System.out.println(tz.getID());
   }
 }
